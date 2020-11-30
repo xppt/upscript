@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "upscript"
+version = "0.1.0"
+description = "Installs and updates python scripts for you"
+authors = ["xppt <21246102+xppt@users.noreply.github.com>"]
+
+[tool.poetry.scripts]
+upscript = "upscript:main"
+
+[tool.poetry.dependencies]
+python = "^3.6"
+distlib = "*"
+
+[tool.poetry.dev-dependencies]
+pypiserver = "^1.4.2"
+wheel = "^0.35.1"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
