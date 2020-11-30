@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "upscript"
-version = "0.1.0"
+version = "0.1.1"
 description = "Installs and updates python scripts for you"
 authors = ["xppt <21246102+xppt@users.noreply.github.com>"]
 

@@ -10,7 +10,7 @@ from upscript._update import refresh_packages, UpdateError
 from upscript._utils import normalize_package_name, echo
 
 venv_subdir = '.files'
-default_index = 'https://pypi.org/simple'
+default_index = 'https://pypi.org/simple/'
 
 
 def cli_main(args_list: Optional[List[str]] = None) -> None:
