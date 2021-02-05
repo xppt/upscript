@@ -26,12 +26,12 @@ def refresh_packages(venv_dir: str) -> RefreshPackagesResult:
 
     state = read_state(venv_dir)
 
-    updated_self = updated_client = False
-
     updated_self = update_package_maybe(
         venv_dir, state, 'upscript',
         source=os.getenv('UPSCRIPT_SELF_INSTALL_SOURCE'),
     )
+
+    updated_client = False
 
     for package in state['client_packages']:
         if update_package_maybe(venv_dir, state, package['name']):
@@ -63,7 +63,7 @@ def update_package_maybe(
 
 
 def get_index_hash(package: str, index_url: str) -> str:
-    package_url = urljoin(index_url, f'{quote(package)}/')
+    package_url = urljoin(f'{index_url}/', f'{quote(package)}/')
 
     timeout = float(os.getenv('UPSCRIPT_UPDATE_TIMEOUT', '15'))
 

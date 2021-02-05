@@ -10,7 +10,7 @@ from upscript._update import refresh_packages, UpdateError
 from upscript._utils import normalize_package_name, echo
 
 venv_subdir = '.files'
-default_index = 'https://pypi.org/simple/'
+default_index = 'https://pypi.org/simple'
 
 
 def cli_main(args_list: Optional[List[str]] = None) -> None:
@@ -18,27 +18,28 @@ def cli_main(args_list: Optional[List[str]] = None) -> None:
         args_list = sys.argv[1:]
 
     if len(args_list) < 1 or args_list[0] != 'fetch':
-        echo('Usage: upscript fetch <name> <destination-dir> [--index-url <index-url>]')
+        echo('Usage: upscript fetch <name> [<destination-dir>] [--index-url <index-url>]')
         sys.exit(10)
 
     args_list = args_list[1:]
 
     parser = argparse.ArgumentParser()
     parser.add_argument('name')
-    parser.add_argument('destination')
+    parser.add_argument('destination', default='')
     parser.add_argument('--index-url', default=default_index)
     args = parser.parse_args(args_list)
 
-    fetch(args.name, args.destination, args.index_url)
-
-
-def fetch(name: str, destination: str, index_url: str = default_index) -> None:
-    venv_dir = os.path.join(destination, venv_subdir)
-
-    package = normalize_package_name(name)
+    package = normalize_package_name(args.name)
     if package is None:
-        echo('invalid package name', name)
+        echo('invalid package name', args.name)
         sys.exit(11)
+
+    destination = args.destination or package
+    fetch(package, os.path.abspath(destination), args.index_url)
+
+
+def fetch(package: str, destination: str, index_url: str) -> None:
+    venv_dir = os.path.join(destination, venv_subdir)
 
     venv_builder = venv.EnvBuilder(with_pip=True)
     venv_builder.create(venv_dir)
